@@ -1,5 +1,7 @@
 package me.MrGraycat.eGlow.Event;
 
+import me.MrGraycat.eGlow.API.Enum.EGlowEffect;
+import me.MrGraycat.eGlow.Addon.BlockWars.BlockWarsAddon;
 import me.MrGraycat.eGlow.Config.EGlowMainConfig.MainConfig;
 import me.MrGraycat.eGlow.Config.EGlowMessageConfig.Message;
 import me.MrGraycat.eGlow.Config.Playerdata.EGlowPlayerdataManager;
@@ -111,6 +113,8 @@ public class EGlowEventListener implements Listener {
 
 				if (EGlowPlayerdataManager.getMySQL_Failed() && p.hasPermission("eglow.option.update"))
 					ChatUtil.sendPlainMsg(p, "&cMySQL failed to enable properly, have a look at this asap&f.", true);
+				
+				eglowPlayer.updatePlayerTabname();
 
 				new BukkitRunnable() {
 					@Override
@@ -118,61 +122,11 @@ public class EGlowEventListener implements Listener {
 						PacketUtil.updatePlayer(eglowPlayer);
 					}
 				}.runTask(EGlow.getInstance());
-				
-				eglowPlayer.updatePlayerTabname();
-				
-				IEGlowEffect effect = eglowPlayer.getForceGlow();
+				IEGlowEffect effect = DataManager.getEGlowEffect("WHITE");
 
-				if (effect != null) {
-					if (EGlow.getInstance().getLibDisguiseAddon() != null && EGlow.getInstance().getLibDisguiseAddon().isDisguised(p) || EGlow.getInstance().getIDisguiseAddon() != null && EGlow.getInstance().getIDisguiseAddon().isDisguised(p)) {
-						eglowPlayer.setGlowDisableReason(GlowDisableReason.DISGUISE);
-						ChatUtil.sendMsg(p, Message.DISGUISE_BLOCKED.get(), true);
-					} else if (eglowPlayer.getPlayer().hasPotionEffect(PotionEffectType.INVISIBILITY) && !eglowPlayer.getGlowDisableReason().equals(GlowDisableReason.INVISIBLE)) {
-						eglowPlayer.setGlowDisableReason(GlowDisableReason.INVISIBLE);
-						ChatUtil.sendMsg(eglowPlayer.getPlayer(), Message.INVISIBILITY_DISABLED.get(), true);
-					} else {
-						eglowPlayer.activateGlow(effect);
-						if (MainConfig.SETTINGS_JOIN_MENTION_GLOW_STATE.getBoolean() && eglowPlayer.getPlayer().hasPermission("eglow.option.glowstate"))
-							ChatUtil.sendMsg(eglowPlayer.getPlayer(), Message.GLOWING_STATE_ON_JOIN.get(effect.getDisplayName()), true);
-						return;
-					}
-					if (MainConfig.SETTINGS_JOIN_MENTION_GLOW_STATE.getBoolean() && eglowPlayer.getPlayer().hasPermission("eglow.option.glowstate"))
-						ChatUtil.sendMsg(eglowPlayer.getPlayer(), Message.NON_GLOWING_STATE_ON_JOIN.get(), true);
-					return;
-				}
-				
-				if (eglowPlayer.getActiveOnQuit()) {
-					if (eglowPlayer.getEffect() == null || !eglowPlayer.getGlowOnJoin() || !p.hasPermission("eglow.option.glowonjoin") || MainConfig.SETTINGS_JOIN_CHECK_PERMISSION.getBoolean() && !p.hasPermission(eglowPlayer.getEffect().getPermission()))
-						return;
-					
-					if (MainConfig.WORLD_ENABLE.getBoolean() && eglowPlayer.isInBlockedWorld()) {
-						if (eglowPlayer.getGlowStatus() || eglowPlayer.getFakeGlowStatus()) {
-							eglowPlayer.toggleGlow();
-							eglowPlayer.setGlowDisableReason(GlowDisableReason.BLOCKEDWORLD);
-							ChatUtil.sendMsg(p, Message.WORLD_BLOCKED.get(), true);
-							return;
-						}
-					}
+				if (BlockWarsAddon.glowing) eglowPlayer.activateGlow(effect);
+				else eglowPlayer.disableGlow(true);
 
-					if (EGlow.getInstance().getLibDisguiseAddon() != null && EGlow.getInstance().getLibDisguiseAddon().isDisguised(p) || EGlow.getInstance().getIDisguiseAddon() != null && EGlow.getInstance().getIDisguiseAddon().isDisguised(p)) {
-						eglowPlayer.setGlowDisableReason(GlowDisableReason.DISGUISE);
-						ChatUtil.sendMsg(p, Message.DISGUISE_BLOCKED.get(), true);
-						return;
-					}
-
-					try {
-						eglowPlayer.activateGlow();
-					} catch (NullPointerException e) {
-						//Prevent rare but useless message whenever something causes the player to disconnect whilst joining the server
-					}
-
-					if (MainConfig.SETTINGS_JOIN_MENTION_GLOW_STATE.getBoolean() && eglowPlayer.getPlayer().hasPermission("eglow.option.glowstate") && eglowPlayer.getEffect() != null)
-						ChatUtil.sendMsg(eglowPlayer.getPlayer(), Message.GLOWING_STATE_ON_JOIN.get(eglowPlayer.getEffect().getDisplayName()), true);
-					return;
-				}
-				
-				if (MainConfig.SETTINGS_JOIN_MENTION_GLOW_STATE.getBoolean() && eglowPlayer.getPlayer().hasPermission("eglow.option.glowstate"))
-					ChatUtil.sendMsg(eglowPlayer.getPlayer(), Message.NON_GLOWING_STATE_ON_JOIN.get(), true);
 			}
 		}.runTaskLaterAsynchronously(EGlow.getInstance(), 2L);
 	}

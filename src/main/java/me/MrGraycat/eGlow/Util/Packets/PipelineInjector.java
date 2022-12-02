@@ -38,18 +38,6 @@ public class PipelineInjector{
 				
 				public void write(ChannelHandlerContext context, Object packet, ChannelPromise channelPromise) throws Exception {		
 					if (NMSHook.nms.PacketPlayOutScoreboardTeam.isInstance(packet)) {
-						if (DebugUtil.TABInstalled()) {
-							if (EGlow.getInstance().getTABAddon() == null) {
-								super.write(context, packet, channelPromise);
-								return;
-							} else {
-								if (!EGlow.getInstance().getTABAddon().getTABSupported() || EGlow.getInstance().getTABAddon().blockEGlowPackets()) {
-									super.write(context, packet, channelPromise);
-									return;
-								}
-							}
-						}
-						
 						modifyPlayers(packet);
 						super.write(context, packet, channelPromise);
 						return;

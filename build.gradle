@@ -8,8 +8,8 @@ plugins {
 group = 'com.github.mrgraycat'
 version = '3.2.1-PRE1'
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
 compileJava.options.encoding = 'UTF-8'
 
 repositories {
@@ -34,20 +34,25 @@ repositories {
     maven { url = 'https://repo.viaversion.com/' }
     //Default unknown
     maven { url = 'https://oss.sonatype.org/content/groups/public/' }
+
+    maven { url = 'https://repo.dmulloy2.net/repository/public/' }
+    maven { url = 'https://maven.enginehub.org/repo/' }
     mavenLocal()
 }
 
 dependencies {
-    compileOnly ('org.spigotmc:spigot-api:1.19.1-R0.1-SNAPSHOT')
-    compileOnly ('com.github.NEZNAMY:TAB:3.1.0')
-    compileOnly ('com.github.montlikadani:TabList:master-SNAPSHOT')
+    compileOnly ('org.spigotmc:spigot:1.19.1-R0.1-SNAPSHOT')
+    // compileOnly ('com.github.NEZNAMY:TAB:3.1.0')
+    // compileOnly ('com.github.montlikadani:TabList:master-SNAPSHOT')
     compileOnly ('net.luckperms:api:5.4')
-    compileOnly ('net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT')
+    // compileOnly ('net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT')
     compileOnly ('me.clip:placeholderapi:2.10.9')
     compileOnly ('de.robingrether.idisguise:idisguise-core:5.8.2')
     compileOnly ('LibsDisguises:LibsDisguises:10.0.28')
     compileOnly ('us.myles:viaversion:3.2.1')
-    compileOnly ('com.github.MilkBowl:VaultAPI:1.7')
+    compileOnly ('com.googlecode.json-simple:json-simple:1.1.1')
+    compileOnly ('com.github.SkriptLang:Skript:dev37c')
+    // compileOnly ('com.github.MilkBowl:VaultAPI:1.7')
     compileOnly ('org.xerial:sqlite-jdbc:3.39.3.0')
     compileOnly ('mysql:mysql-connector-java:8.0.30')
     compileOnly ('io.netty:netty-transport:4.1.82.Final')
@@ -162,6 +167,7 @@ shadowJar {
     relocate("org.bstats", "me.MrGraycat.eGlow.Addon.bStats")
     minimize()
 }
+
 tasks.build.dependsOn tasks.shadowJar
 
 publishing {

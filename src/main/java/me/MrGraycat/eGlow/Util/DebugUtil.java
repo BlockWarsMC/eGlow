@@ -48,9 +48,6 @@ public class DebugUtil {
 		
 		
 		ChatUtil.sendPlainMsg(sender, ChatUtil.translateColors(plugins.substring(0, plugins.length() - 2)), false);
-
-		if (EGlow.getInstance().getTABAddon() != null && !EGlow.getInstance().getTABAddon().getTABSupported())
-			ChatUtil.sendPlainMsg(sender, ChatUtil.translateColors("&cThis eGlow version requires a minimum TAB version of 3.1.0&f!"), false);
 	}
 	
 	public static String getServerVersion() {

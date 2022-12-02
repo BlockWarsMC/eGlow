@@ -1,11 +1,9 @@
 package me.MrGraycat.eGlow.Manager.Interface;
 
-import me.MrGraycat.eGlow.Addon.Citizens.EGlowCitizensTrait;
 import me.MrGraycat.eGlow.Config.EGlowMessageConfig.Message;
 import me.MrGraycat.eGlow.EGlow;
 import me.MrGraycat.eGlow.Manager.DataManager;
 import me.MrGraycat.eGlow.Util.Text.ChatUtil;
-import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -70,13 +68,6 @@ public class IEGlowEffect {
 			if (entity instanceof Player)
 				eglowEntity = DataManager.getEGlowPlayer((Player) entity);
 			
-			try {
-				if (EGlow.getInstance().getCitizensAddon() != null && entity instanceof NPC)
-					eglowEntity = ((NPC) entity).getOrAddTrait(EGlowCitizensTrait.class).getEGlowNPC();
-			} catch(NoSuchMethodError e) {
-				ChatUtil.sendToConsole("&cYour Citizens version is outdated please use 2.0.27 or later", true);
-			}
-			
 			if (eglowEntity != null) {
 				eglowEntity.disableGlow(true);
 				if (entity instanceof Player)
@@ -110,21 +101,6 @@ public class IEGlowEffect {
 
 					if (entity instanceof Player)
 						eglowEntity = DataManager.getEGlowPlayer((Player) entity);
-
-					try {
-						if (EGlow.getInstance().getCitizensAddon() != null && entity instanceof NPC)
-							eglowEntity = ((NPC) entity).getTraitNullable(EGlowCitizensTrait.class).getEGlowNPC();
-					} catch (NoSuchMethodError e) {
-						ChatUtil.sendToConsole("&cYour Citizens version is outdated please use 2.0.27 or later", true);
-					} catch (NullPointerException ex) {
-						new BukkitRunnable() {
-							@Override
-							public void run() {
-								((NPC) entity).getOrAddTrait(EGlowCitizensTrait.class);
-							}
-						}.runTask(EGlow.getInstance());
-						return;
-					}
 
 					if (eglowEntity == null) {
 						getActiveEntities().remove(entity);
@@ -225,5 +201,10 @@ public class IEGlowEffect {
 			}
 			this.effectLoop = chatcolors;
 		}	
+	}
+
+	@Override
+	public String toString() {
+		return "IEGlowEffect{effectName=" + effectName + "}";
 	}
 }
