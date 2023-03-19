@@ -92,21 +92,20 @@ public class EGlowMainMenu extends Menu {
 		break;
 		case(30):
 			if (eGlowPlayer.getPlayer().hasPermission("eglow.command.toggle")) {
-				if (eGlowPlayer.getFakeGlowStatus() || eGlowPlayer.getGlowStatus()) {
-					eGlowPlayer.toggleGlow();
+				if (eGlowPlayer.isGlowing()) {
+					eGlowPlayer.disableGlow(false);
 					ChatUtil.sendMsgFromGUI(player, Message.DISABLE_GLOW.get());
 				} else {
 					if (eGlowPlayer.getEffect() == null || eGlowPlayer.getEffect().getName().equals("none")) {
 						ChatUtil.sendMsgFromGUI(player, Message.NO_LAST_GLOW.get());
 						return;
 					} else {
-						if (eGlowPlayer.getGlowDisableReason().equals(GlowDisableReason.DISGUISE)) {
-							ChatUtil.sendMsgFromGUI(player, Message.DISGUISE_BLOCKED.get());
-							return;
+						if (eGlowPlayer.getGlowDisableReason().equals(GlowDisableReason.INVISIBLE)) {
+							ChatUtil.sendMsgFromGUI(player, Message.INVISIBILITY_BLOCKED.get());
 						}
 						
 						if (eGlowPlayer.getPlayer().hasPermission(eGlowPlayer.getEffect().getPermission()) || eGlowPlayer.isForcedGlow(eGlowPlayer.getEffect())) {
-							eGlowPlayer.toggleGlow();
+							eGlowPlayer.activateGlow();
 						} else {
 							ChatUtil.sendMsgFromGUI(player, Message.NO_PERMISSION.get());
 							return;
@@ -133,7 +132,6 @@ public class EGlowMainMenu extends Menu {
 			return;
 		}
 
-		//setMenuItems();
 		UpdateMainNavigationBar(eGlowPlayer);
 	}
 

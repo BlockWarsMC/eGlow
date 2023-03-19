@@ -1,7 +1,5 @@
 package me.MrGraycat.eGlow.Event;
 
-import me.MrGraycat.eGlow.API.Enum.EGlowEffect;
-import me.MrGraycat.eGlow.Addon.BlockWars.BlockWarsAddon;
 import me.MrGraycat.eGlow.Config.EGlowMainConfig.MainConfig;
 import me.MrGraycat.eGlow.Config.EGlowMessageConfig.Message;
 import me.MrGraycat.eGlow.Config.Playerdata.EGlowPlayerdataManager;
@@ -77,13 +75,13 @@ public class EGlowEventListener implements Listener {
 			if (eglowPlayer.isInBlockedWorld()) {
 				if (eglowPlayer.getGlowStatus() || eglowPlayer.getFakeGlowStatus()) {
 					eglowPlayer.toggleGlow();
-					eglowPlayer.setGlowDisableReason(GlowDisableReason.BLOCKEDWORLD);
+					eglowPlayer.setGlowDisableReason(GlowDisableReason.BLOCKEDWORLD, false);
 					ChatUtil.sendMsg(p, Message.WORLD_BLOCKED.get(), true);
 				}
 			} else {
 				if (eglowPlayer.getGlowDisableReason() != null && eglowPlayer.getGlowDisableReason().equals(GlowDisableReason.BLOCKEDWORLD)) {
 					eglowPlayer.toggleGlow();
-					eglowPlayer.setGlowDisableReason(GlowDisableReason.NONE);
+					eglowPlayer.setGlowDisableReason(GlowDisableReason.NONE, false);
 					ChatUtil.sendMsg(p, Message.WORLD_ALLOWED.get(), true);
 				}
 			}
@@ -113,8 +111,6 @@ public class EGlowEventListener implements Listener {
 
 				if (EGlowPlayerdataManager.getMySQL_Failed() && p.hasPermission("eglow.option.update"))
 					ChatUtil.sendPlainMsg(p, "&cMySQL failed to enable properly, have a look at this asap&f.", true);
-				
-				eglowPlayer.updatePlayerTabname();
 
 				new BukkitRunnable() {
 					@Override
@@ -122,11 +118,6 @@ public class EGlowEventListener implements Listener {
 						PacketUtil.updatePlayer(eglowPlayer);
 					}
 				}.runTask(EGlow.getInstance());
-				IEGlowEffect effect = DataManager.getEGlowEffect("WHITE");
-
-				if (BlockWarsAddon.glowing) eglowPlayer.activateGlow(effect);
-				else eglowPlayer.disableGlow(true);
-
 			}
 		}.runTaskLaterAsynchronously(EGlow.getInstance(), 2L);
 	}

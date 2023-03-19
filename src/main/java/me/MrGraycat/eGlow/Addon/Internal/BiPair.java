@@ -1,4 +1,4 @@
-package me.MrGraycat.eGlow.Util;
+package me.MrGraycat.eGlow.Addon.Internal;
 
 import java.util.Objects;
 
@@ -43,5 +43,4 @@ public class BiPair<K, V> {
                 ", value=" + value +
                 '}';
     }
-
 }

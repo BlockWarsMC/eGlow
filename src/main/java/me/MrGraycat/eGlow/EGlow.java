@@ -7,15 +7,12 @@ import java.util.Objects;
 
 import me.MrGraycat.eGlow.Addon.BlockWars.BlockWarsAddon;
 import me.MrGraycat.eGlow.Addon.Internal.AdvancedGlowVisibilityAddon;
-import org.bstats.bukkit.Metrics;
-import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.MrGraycat.eGlow.API.EGlowAPI;
-import me.MrGraycat.eGlow.Addon.PlaceholderAPIAddon;
 import me.MrGraycat.eGlow.Command.EGlowCommand;
 import me.MrGraycat.eGlow.Config.EGlowCustomEffectsConfig;
 import me.MrGraycat.eGlow.Config.EGlowMainConfig;
@@ -36,7 +33,6 @@ public class EGlow extends JavaPlugin {
 
 	//Addons
 	private AdvancedGlowVisibilityAddon glowAddon;
-	private Metrics metrics;
 	
 	@Override
 	public void onEnable() {
@@ -95,8 +91,6 @@ public class EGlow extends JavaPlugin {
 			public void run() {
 				if (MainConfig.ADVANCED_GLOW_VISIBILITY_ENABLE.getBoolean() && getAdvancedGlowVisibility() == null)
 					setAdvancedGlowVisibility(new AdvancedGlowVisibilityAddon());
-				if (DebugUtil.pluginCheck("PlaceholderAPI"))
-					new PlaceholderAPIAddon();
 			}
 		}.runTask(this);
 	}
@@ -151,10 +145,6 @@ public class EGlow extends JavaPlugin {
 		this.UP_TO_DATE = up_to_date;
 	}
 
-	private void setMetricsAddon(Metrics metrics) {
-		this.metrics = metrics;
-	}
-
 	public void setAdvancedGlowVisibility(AdvancedGlowVisibilityAddon glowAddon) {
 		this.glowAddon = glowAddon;
 	}
@@ -170,10 +160,6 @@ public class EGlow extends JavaPlugin {
 	
 	public boolean isUpToDate() {
 		return UP_TO_DATE;
-	}
-
-	public Metrics getMetricsAddon() {
-		return this.metrics;
 	}
 
 	public AdvancedGlowVisibilityAddon getAdvancedGlowVisibility() {

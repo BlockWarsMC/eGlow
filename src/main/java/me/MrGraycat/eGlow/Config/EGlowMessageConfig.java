@@ -4,9 +4,7 @@ import me.MrGraycat.eGlow.EGlow;
 import me.MrGraycat.eGlow.Manager.Interface.IEGlowPlayer;
 import me.MrGraycat.eGlow.Util.EnumUtil;
 import me.MrGraycat.eGlow.Util.Text.ChatUtil;
-import me.neznamy.yamlassist.YamlAssist;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.yaml.snakeyaml.error.YAMLException;
 
 import java.io.File;
 import java.util.List;
@@ -34,7 +32,8 @@ public class EGlowMessageConfig {
 			
 			config = new YamlConfiguration();
 			config.load(configFile);
-			
+
+			//TODO to be removed soon
 			if (!config.isConfigurationSection("main")) {
 				File oldFile = new File(EGlow.getInstance().getDataFolder(), "OLDMessages.yml");
 				
@@ -49,12 +48,6 @@ public class EGlowMessageConfig {
 			configCheck();
 		} catch(Exception e) {
 			ChatUtil.reportError(e);
-			if (e.getCause() instanceof YAMLException) {
-				List<String> suggestions = YamlAssist.getSuggestions(configFile);
-				for(String suggestion : suggestions) {
-					ChatUtil.sendToConsole("&c" + suggestion, false);
-				}
-			}
 		}
 	}
 	
@@ -75,12 +68,6 @@ public class EGlowMessageConfig {
 			configFile = configFileBackup;
 			
 			ChatUtil.reportError(e);
-			if (e.getCause() instanceof YAMLException) {
-				List<String> suggestions = YamlAssist.getSuggestions(configFile);
-				for(String suggestion : suggestions) {
-					ChatUtil.sendToConsole("&c" + suggestion, false);
-				}
-			}
 			return false;
 		}
 	}
