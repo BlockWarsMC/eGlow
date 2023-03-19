@@ -130,7 +130,7 @@ public class NMSStorage {
 			this.setFlag = getMethod(this.EntityPlayer, new String[] { "setFlag", "b", "setEntityFlag" }, int.class, boolean.class);
 
 			if (isIs1_19_3OrAbove()) {
-				this.getDataWatcher = getMethod(this.EntityPlayer, new String[] {"al"});
+				this.getDataWatcher = getMethod(this.EntityPlayer, new String[] {"aj"});
 			} else {
 				this.getDataWatcher = getMethod(this.EntityPlayer, new String[] {"getDataWatcher", "ai"});
 			}
