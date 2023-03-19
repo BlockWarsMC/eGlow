@@ -36,12 +36,10 @@ public class PlayerEvents implements Listener {
 
     @EventHandler
     public void join(PlayerJoinEvent e) {
-        //initTeams(e.getPlayer());
         new BukkitRunnable(){
             @Override
             public void run() {
                 String pTeam = Utils.skriptString("team." + e.getPlayer().getName());
-
                 Bukkit.getOnlinePlayers().forEach(tp -> {
                     addToTeam(pTeam, e.getPlayer(), tp);
 

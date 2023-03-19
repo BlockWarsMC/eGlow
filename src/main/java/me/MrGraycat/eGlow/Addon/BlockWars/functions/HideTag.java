@@ -23,7 +23,7 @@ public class HideTag extends JavaFunction<Boolean> {
     public Boolean[] execute(FunctionEvent e, Object[][] params) {
         Player[] players = (Player[]) params[0];
         for (Player tp : players) {
-            Utils.setNametagStateForPlayer(tp, Team.OptionStatus.NEVER);
+            Utils.setNametagStateForPlayer(tp, Team.OptionStatus.FOR_OTHER_TEAMS);
         }
         return new Boolean[]{true};
     }
