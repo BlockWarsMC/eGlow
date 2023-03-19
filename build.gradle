@@ -2,11 +2,10 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
-    id 'com.rikonardo.papermake' version '1.0.3'
 }
 
 group = 'com.github.mrgraycat'
-version = '3.2.1-PRE1'
+version = '3.2.2'
 
 sourceCompatibility = JavaVersion.VERSION_16
 targetCompatibility = JavaVersion.VERSION_16
@@ -16,50 +15,36 @@ repositories {
     mavenCentral()
     //Spigot
     maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
-    //Vault, YAMLAssist
-    maven { url = 'https://jitpack.io' }
     //TAB
     maven { url = 'https://repo.kryptonmc.org/releases' }
+    //Vault
+    maven { url = 'https://jitpack.io' }
     //Citizens
     maven { url = 'https://repo.citizensnpcs.co/' }
     //PlaceholderAPI
     maven { url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
-    //iDisguise
-    maven { url = 'http://repo.robingrether.de/'
-        allowInsecureProtocol = true
-    }
-    //LibsDisguises
-    maven { url = 'https://repo.md-5.net/content/groups/public/' }
     //ViaVersion
     maven { url = 'https://repo.viaversion.com/' }
     //Default unknown
     maven { url = 'https://oss.sonatype.org/content/groups/public/' }
-
-    maven { url = 'https://repo.dmulloy2.net/repository/public/' }
-    maven { url = 'https://maven.enginehub.org/repo/' }
     mavenLocal()
 }
 
 dependencies {
-    compileOnly ('org.spigotmc:spigot:1.19.1-R0.1-SNAPSHOT')
-    // compileOnly ('com.github.NEZNAMY:TAB:3.1.0')
-    // compileOnly ('com.github.montlikadani:TabList:master-SNAPSHOT')
-    compileOnly ('net.luckperms:api:5.4')
-    // compileOnly ('net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT')
-    compileOnly ('me.clip:placeholderapi:2.10.9')
-    compileOnly ('de.robingrether.idisguise:idisguise-core:5.8.2')
-    compileOnly ('LibsDisguises:LibsDisguises:10.0.28')
-    compileOnly ('us.myles:viaversion:3.2.1')
-    compileOnly ('com.googlecode.json-simple:json-simple:1.1.1')
     compileOnly ('com.github.SkriptLang:Skript:dev37c')
-    // compileOnly ('com.github.MilkBowl:VaultAPI:1.7')
-    compileOnly ('org.xerial:sqlite-jdbc:3.39.3.0')
+    compileOnly ('org.spigotmc:spigot-api:1.19.1-R0.1-SNAPSHOT')
+    compileOnly ('me.neznamy:tab-api:3.2.4')
+    compileOnly ('me.neznamy:tab-bukkit:3.2.4')
+    compileOnly ('me.neznamy:tab-shared:3.2.4')
+    compileOnly ('net.luckperms:api:5.4')
+    compileOnly ('net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT')
+    compileOnly ('me.clip:placeholderapi:2.10.9')
+    compileOnly ('us.myles:viaversion:3.2.1')
+    compileOnly ('com.github.MilkBowl:VaultAPI:1.7')
+    compileOnly ('org.xerial:sqlite-jdbc:3.40.0.0')
     compileOnly ('mysql:mysql-connector-java:8.0.30')
-    compileOnly ('io.netty:netty-transport:4.1.82.Final')
-    implementation ('org.bstats:bstats-bukkit:3.0.0')
-    implementation ('com.github.NEZNAMY:YamlAssist:1.0.5') {
-        exclude group: 'org.yaml', module: 'snakeyaml'
-    }
+    compileOnly ('io.netty:netty-transport:4.1.86.Final')
+    compileOnly ('it.unimi.dsi:fastutil:8.5.11')
 }
 
 //Clean up unneeded external libraries
@@ -102,11 +87,11 @@ configurations.compileOnly {
     exclude group: 'io.netty', module: 'netty-transport-classes-epoll'
     exclude group: 'io.netty', module: 'netty-transport-native-epoll'
     exclude group: 'io.netty', module: 'netty-transport-native-unix-common'
-    exclude group: 'it.unimi.dsi', module: 'fastutil'
     exclude group: 'javax.inject', module: 'javax.inject'
     exclude group: 'jline', module: 'jline'
     exclude group: 'junit', module: 'junit'
     exclude group: 'me.neznamy', module: 'yamlassist'
+    exclude group: 'net.byteflux', module: 'libby-bukkit'
     exclude group: 'net.java.dev.jna', module: 'jna'
     exclude group: 'net.java.dev.jna', module: 'jna-platform'
     exclude group: 'net.kyori', module: 'adventure-api'
@@ -163,11 +148,8 @@ configurations.compileOnly {
 shadowJar {
     archiveClassifier.set('')
     archiveVersion.set('')
-    relocate("me.neznamy.yamlassist", "me.MrGraycat.eGlow.Config.YAMLAssist")
-    relocate("org.bstats", "me.MrGraycat.eGlow.Addon.bStats")
     minimize()
 }
-
 tasks.build.dependsOn tasks.shadowJar
 
 publishing {

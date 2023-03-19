@@ -3,16 +3,11 @@ package me.MrGraycat.eGlow.Config;
 
 import me.MrGraycat.eGlow.EGlow;
 import me.MrGraycat.eGlow.Util.Text.ChatUtil;
-import me.neznamy.yamlassist.YamlAssist;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.permissions.Permission;
-import org.yaml.snakeyaml.error.YAMLException;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class EGlowMainConfig {
 	private static YamlConfiguration config;
@@ -38,7 +33,8 @@ public class EGlowMainConfig {
 			config.load(configFile);
 			
 			registerCustomPermissions();
-			
+
+			//TODO to be removed soon
 			if (!config.isConfigurationSection("Command-alias")) {
 				File oldFile = new File(EGlow.getInstance().getDataFolder(), "OLDConfig.yml");
 				
@@ -53,12 +49,6 @@ public class EGlowMainConfig {
 			configCheck();
 		} catch(Exception e) {
 			ChatUtil.reportError(e);
-			if (e.getCause() instanceof YAMLException) {
-				List<String> suggestions = YamlAssist.getSuggestions(configFile);
-				for(String suggestion : suggestions) {
-					ChatUtil.sendToConsole("&c" + suggestion, false);
-				}
-			}
 		}
 	}
 	
@@ -82,12 +72,6 @@ public class EGlowMainConfig {
 			configFile = configFileBackup;
 			
 			ChatUtil.reportError(e);
-			if (e.getCause() instanceof YAMLException) {
-				List<String> suggestions = YamlAssist.getSuggestions(configFile);
-				for(String suggestion : suggestions) {
-					ChatUtil.sendToConsole("&c" + suggestion, false);
-				}
-			}
 			return false;
 		}
 	}
@@ -231,7 +215,13 @@ public class EGlowMainConfig {
 		}
 
 		public List<String> getStringList() {
-			return config.getStringList(main.getConfigPath());
+			List<String> worldNames = new ArrayList<>();
+
+			for (String worldName : config.getStringList(main.getConfigPath())) {
+				worldNames.add(worldName.toLowerCase());
+			}
+
+			return worldNames;
 		}
 
 		public int getInt() {

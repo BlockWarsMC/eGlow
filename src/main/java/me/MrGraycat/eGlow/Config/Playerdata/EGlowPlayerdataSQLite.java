@@ -45,7 +45,7 @@ public class EGlowPlayerdataSQLite {
 			ePlayer.setGlowOnJoin(Boolean.parseBoolean(data[1]));
 			ePlayer.setActiveOnQuit(Boolean.parseBoolean(data[2]));
 			ePlayer.setGlowVisibility(GlowVisibility.valueOf(data[3]));
-			ePlayer.setGlowDisableReason(GlowDisableReason.valueOf(data[4]));
+			ePlayer.setGlowDisableReason(GlowDisableReason.valueOf(data[4]), true);
 			return;
 		}
 		
@@ -78,11 +78,11 @@ public class EGlowPlayerdataSQLite {
 				} else {
 					ePlayer.setGlowVisibility((res.getString("glowVisibility").equals(GlowVisibility.UNSUPPORTEDCLIENT.name()) ? ePlayer.getGlowVisibility() : GlowVisibility.valueOf(res.getString("glowVisibility"))));
 				}
-			
+
 				if (res.getString("glowDisableReason") == null || res.getString("glowDisableReason").isEmpty()) {
-					ePlayer.setGlowDisableReason(GlowDisableReason.NONE);
+					ePlayer.setGlowDisableReason(GlowDisableReason.NONE, true);
 				} else {
-					ePlayer.setGlowDisableReason(GlowDisableReason.valueOf(res.getString("glowDisableReason")));
+					ePlayer.setGlowDisableReason(GlowDisableReason.valueOf(res.getString("glowDisableReason")), true);
 				}
 			} else {
 				EGlowPlayerdataManager.setDefaultValues(ePlayer);
@@ -106,12 +106,6 @@ public class EGlowPlayerdataSQLite {
 		} else {
 			SavingQueue.put(ePlayer.getUUID().toString(), values);
 		}
-	}
-
-	public void savePlayerdata(String uuid, String lastGlowData, boolean glowOnJoin, boolean activeOnQuit, String glowVisibility, String glowDisableReason) {
-		String values = lastGlowData + "," + glowOnJoin + "," + activeOnQuit + "," + glowVisibility + "," + glowDisableReason;
-
-		SavingQueue.put(uuid, values);
 	}
 
 	private boolean isActive = false;
@@ -167,12 +161,6 @@ public class EGlowPlayerdataSQLite {
 	}
 	
 	private boolean setupSQLiteConnection() {
-		File dbFile = new File(EGlow.getInstance().getDataFolder(), "Playerdata.db;PRAGMA journal_mode=WAL;");
-		
-		//Check if the db exists with incorrect WAL journal mode implementation and renaming it to a proper DB file
-		if (dbFile.exists())
-			dbFile.renameTo(new File(EGlow.getInstance().getDataFolder(), "Playerdata.db"));
-		
 		sqlite = new SQLiteDataSource();
 		sqlite.setUrl("jdbc:sqlite:" + EGlow.getInstance().getDataFolder() + File.separator + "Playerdata.db");
 

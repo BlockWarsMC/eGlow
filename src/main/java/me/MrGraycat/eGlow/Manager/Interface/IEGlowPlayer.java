@@ -167,6 +167,9 @@ public class IEGlowPlayer {
 
 		getPlayer().setPlayerListName(ChatUtil.translateColors(format));
 	}
+	public boolean isGlowing() {
+		return (getGlowStatus() || getFakeGlowStatus());
+	}
 
 	public String getTeamName() {
 		String playerName = name;
@@ -277,8 +280,9 @@ public class IEGlowPlayer {
 		return this.glowDisableReason;
 	}
 
-	public void setGlowDisableReason(GlowDisableReason reason) {
+	public boolean setGlowDisableReason(GlowDisableReason reason, boolean skip) {
 		this.glowDisableReason = reason;
+		return false;
 	}
 
 	public GlowVisibility getGlowVisibility() {
