@@ -41,14 +41,14 @@ public class IEGlowPlayer {
 	private GlowVisibility glowVisibility;
 
 	private GlowTargetMode glowTarget = GlowTargetMode.CUSTOM;
-	private List<Player> customTargetList = new ArrayList<>();
+	private Set<Player> customTargetList = new HashSet<>();
 
 	public IEGlowPlayer(Player player) {
 		this.entityType = "PLAYER";
 		this.player = player;
 		this.name = player.getName();
 		this.uuid = player.getUniqueId();
-		this.customTargetList = new ArrayList<>(Collections.singletonList(player));
+		this.customTargetList = new HashSet<>(Collections.singletonList(player));
 		this.version = ProtocolVersion.getPlayerVersion(this);
 
 		if (this.version.getNetworkId() <= 110 && !this.version.getFriendlyName().equals("1.9.4")) {
@@ -68,10 +68,8 @@ public class IEGlowPlayer {
 		setGlowStatus(status);
 		setFakeGlowStatus(fake);
 
-		switch (entityType) {
-			case ("PLAYER"):
-				PacketUtil.updateGlowing(this, status);
-				break;
+		if (entityType.equals("PLAYER")) {
+			PacketUtil.updateGlowing(this, status);
 		}
 	}
 
@@ -238,16 +236,17 @@ public class IEGlowPlayer {
 		}
 
 		switch (action) {
-			case BLOCKED:
+			case BLOCKED -> {
 				if (MainConfig.WORLD_LIST.getStringList().contains(getPlayer().getWorld().getName().toLowerCase()))
 					return true;
-				break;
-			case ALLOWED:
+			}
+			case ALLOWED -> {
 				if (!MainConfig.WORLD_LIST.getStringList().contains(getPlayer().getWorld().getName().toLowerCase()))
 					return true;
-				break;
-			case UNKNOWN:
+			}
+			case UNKNOWN -> {
 				return false;
+			}
 		}
 		return false;
 	}
@@ -305,14 +304,12 @@ public class IEGlowPlayer {
 		}
 	}
 
-	public List<Player> getGlowTargets() {
+	public Set<Player> getGlowTargets() {
 		return customTargetList;
 	}
 
 	public void addGlowTarget(Player p) {
-		if (!customTargetList.contains(p)) {
-			customTargetList.add(p);
-		}
+		customTargetList.add(p);
 		customTargetList.remove(player);
 		PacketUtil.glowTargetChange(this, p, true);
 		if (glowTarget.equals(GlowTargetMode.ALL))
@@ -325,14 +322,12 @@ public class IEGlowPlayer {
 		customTargetList.remove(p);
 	}
 
-	public void setGlowTargets(List<Player> targets) {
+	public void setGlowTargets(Set<Player> targets) {
 		if (targets == null) {
 			customTargetList.clear();
 		} else {
-			if (!targets.contains(player))
-				targets.add(player);
-
 			customTargetList = targets;
+			targets.remove(player);
 		}
 
 		if (glowTarget.equals(GlowTargetMode.ALL)) {

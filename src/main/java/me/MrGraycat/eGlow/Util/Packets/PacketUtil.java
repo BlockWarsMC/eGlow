@@ -19,6 +19,7 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class PacketUtil {
 	private static boolean sendPackets = true;
@@ -158,7 +159,7 @@ public class PacketUtil {
 
 	public static void updateGlowTarget(IEGlowPlayer ePlayer) {
 		Collection<IEGlowPlayer> players = DataManager.getEGlowPlayers();
-		List<Player> customTargets = ePlayer.getGlowTargets();
+		Set<Player> customTargets = ePlayer.getGlowTargets();
 
 		Object glowingEntity = ePlayer.getEntity();
 		int glowingEntityID = ePlayer.getPlayer().getEntityId();
