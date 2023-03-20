@@ -4,6 +4,8 @@ import ch.njol.skript.lang.function.Functions;
 import me.MrGraycat.eGlow.Addon.BlockWars.functions.EnableGlow;
 import me.MrGraycat.eGlow.Addon.BlockWars.functions.HideTag;
 import me.MrGraycat.eGlow.Addon.BlockWars.functions.ShowTag;
+import me.MrGraycat.eGlow.Addon.BlockWars.functions.glow.AddCustomGlowReceivers;
+import me.MrGraycat.eGlow.Addon.BlockWars.functions.glow.RemoveCustomGlowReceivers;
 import me.MrGraycat.eGlow.Addon.BlockWars.listeners.PlayerEvents;
 import me.MrGraycat.eGlow.EGlow;
 import me.MrGraycat.eGlow.Util.DebugUtil;
@@ -22,6 +24,9 @@ public class BlockWarsAddon {
         Functions.registerFunction(new HideTag());
         Functions.registerFunction(new ShowTag());
         Functions.registerFunction(new EnableGlow());
+
+        Functions.registerFunction(new AddCustomGlowReceivers());
+        Functions.registerFunction(new RemoveCustomGlowReceivers());
 
         EGlow.getAPI().setPacketBlockerStatus(false);
         EGlow.getAPI().setSendTeamPackets(false);

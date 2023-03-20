@@ -309,8 +309,8 @@ public class IEGlowPlayer {
 	}
 
 	public void addGlowTarget(Player p) {
+		if (p.equals(player)) return;
 		customTargetList.add(p);
-		customTargetList.remove(player);
 		PacketUtil.glowTargetChange(this, p, true);
 		if (glowTarget.equals(GlowTargetMode.ALL))
 			setGlowTargetMode(GlowTargetMode.CUSTOM);
