@@ -23,6 +23,7 @@ public class PipelineInjector{
 	
 	public static void inject(IEGlowPlayer eglowPlayer) {		
 		Channel channel = (Channel) NMSHook.getChannel(eglowPlayer.getPlayer());
+		int playerEntityID = eglowPlayer.getPlayer().getEntityId();
 		
 		if (!Objects.requireNonNull(channel).pipeline().names().contains("packet_handler"))
 			return;
@@ -45,7 +46,14 @@ public class PipelineInjector{
 
 					if (NMSHook.nms.PacketPlayOutEntityMetadata.isInstance(packet)) {
 						Integer entityID = (Integer) PacketPlayOut.getField(packet, "b");
-					
+
+						if (entityID == playerEntityID) {
+							PacketPlayOutEntityMetadata packetPlayOutEntityMetadata;
+							packetPlayOutEntityMetadata = new PacketPlayOutEntityMetadata(entityID, NMSHook.setInvisibilityFlag(eglowPlayer.getEntity(), false));
+							super.write(context, packetPlayOutEntityMetadata.toNMS(eglowPlayer.getVersion()), channelPromise);
+							return;
+						}
+
 						if (glowingEntities.containsKey(entityID)) {
 							PacketPlayOutEntityMetadata packetPlayOutEntityMetadata;
 							IEGlowPlayer glowingTarget = glowingEntities.get(entityID);
