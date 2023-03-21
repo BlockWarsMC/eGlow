@@ -7,8 +7,8 @@ plugins {
 group = 'com.github.mrgraycat'
 version = '3.2.2'
 
-sourceCompatibility = JavaVersion.VERSION_16
-targetCompatibility = JavaVersion.VERSION_16
+sourceCompatibility = JavaVersion.VERSION_16 // BW Start - Force Java 16
+targetCompatibility = JavaVersion.VERSION_16 // BW End
 compileJava.options.encoding = 'UTF-8'
 
 repositories {
@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly ('com.github.SkriptLang:Skript:dev37c')
+    compileOnly ('com.github.SkriptLang:Skript:dev37c') // BW - Add skript dependency
     compileOnly ('org.spigotmc:spigot-api:1.19.1-R0.1-SNAPSHOT')
     compileOnly ('me.neznamy:tab-api:3.2.4')
     compileOnly ('me.neznamy:tab-bukkit:3.2.4')

@@ -66,13 +66,13 @@ public class NMSHook {
 	}
 	
 	public static DataWatcher setGlowFlag(Object entity, boolean status) {
-		return setFlag(entity, (byte) 6, status);
+		return setFlag(entity, (byte) 6, status); // BW - Move setting flags to seperate function
 	}
-	public static DataWatcher setInvisibilityFlag(Object entity, boolean status) {
+	public static DataWatcher setInvisibilityFlag(Object entity, boolean status) { // BW - Add function for invisibility
 		return setFlag(entity, (byte) 5, status);
 	}
 
-	public static DataWatcher setFlag(Object entity, byte bitMaskIndex, boolean status) {
+	public static DataWatcher setFlag(Object entity, byte bitMaskIndex, boolean status) { // BW - Move setting flags to seperate function
 		try {
 			Object nmsPlayer = nms.getHandle.invoke(entity);
 			DataWatcher dw = DataWatcher.fromNMS(nms.getDataWatcher.invoke(nmsPlayer));

@@ -31,8 +31,8 @@ public class EGlow extends JavaPlugin {
 	private static EGlowAPI API;
 	private boolean UP_TO_DATE = true;
 
-	//Addons
 	private AdvancedGlowVisibilityAddon glowAddon;
+	// BW - Remove unused addons
 	
 	@Override
 	public void onEnable() {
@@ -53,7 +53,7 @@ public class EGlow extends JavaPlugin {
 			runAddonHooks();
 			runPlayerCheckOnEnable();
 
-			BlockWarsAddon.load();
+			BlockWarsAddon.load(); // BW - Add BlockWars Addon
 		} else {
 			ChatUtil.sendToConsole("Disabling eGlow! Your server version is not compatible! (" + DebugUtil.getServerVersion() + ")", false);
 			getServer().getPluginManager().disablePlugin(this);
@@ -91,6 +91,7 @@ public class EGlow extends JavaPlugin {
 			public void run() {
 				if (MainConfig.ADVANCED_GLOW_VISIBILITY_ENABLE.getBoolean() && getAdvancedGlowVisibility() == null)
 					setAdvancedGlowVisibility(new AdvancedGlowVisibilityAddon());
+				// BW - Remove unused addons
 			}
 		}.runTask(this);
 	}

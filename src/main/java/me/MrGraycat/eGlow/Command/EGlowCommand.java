@@ -43,6 +43,7 @@ public class EGlowCommand implements CommandExecutor, TabExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		// BW Start - Replace eGlow command with a simple debugging command
 		if (!sender.hasPermission("eglow.debug")) return true;
 		if (!(sender instanceof Player p)) return true;
 		IEGlowPlayer eGlowPlayer = EGlow.getAPI().getEGlowPlayer(p);
@@ -56,10 +57,11 @@ public class EGlowCommand implements CommandExecutor, TabExecutor {
 		}
 
 		return true;
+		// BW End
 	}
 	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-		return new ArrayList<>();
+		return new ArrayList<>(); // BW - Remove tab completion
 	}
 }

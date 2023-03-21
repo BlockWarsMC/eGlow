@@ -188,7 +188,7 @@ public class EGlowAPI {
 		if (sender == null)
 			return;
 		
-		sender.setGlowTargets(new HashSet<>(receivers));
+		sender.setGlowTargets(new HashSet<>(receivers)); // BW - Make glowTargets a Set
 		PacketUtil.forceUpdateGlow(sender);	
 	}
 	

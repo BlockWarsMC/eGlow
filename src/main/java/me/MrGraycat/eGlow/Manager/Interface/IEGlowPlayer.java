@@ -309,9 +309,11 @@ public class IEGlowPlayer {
 	}
 
 	public void addGlowTarget(Player p) {
+		// BW Start - Stop player seeing themselves glow
 		if (p.equals(player)) return;
 		customTargetList.add(p);
 		PacketUtil.glowTargetChange(this, p, true);
+		// BW End
 		if (glowTarget.equals(GlowTargetMode.ALL))
 			setGlowTargetMode(GlowTargetMode.CUSTOM);
 	}
@@ -322,7 +324,7 @@ public class IEGlowPlayer {
 		customTargetList.remove(p);
 	}
 
-	public void setGlowTargets(Set<Player> targets) {
+	public void setGlowTargets(Set<Player> targets) { // BW - Change glowTargets to a set
 		if (targets == null) {
 			customTargetList.clear();
 		} else {

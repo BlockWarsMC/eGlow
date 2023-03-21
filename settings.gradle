@@ -3,7 +3,7 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         maven { url = 'https://jitpack.io' }
-        maven { url = "https://repo.papermc.io/repository/maven-public/" }
+        maven { url = "https://repo.papermc.io/repository/maven-public/" } // BW - Add paper repo
         mavenCentral()
     }
 }
